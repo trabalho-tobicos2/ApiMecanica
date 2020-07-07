@@ -54,8 +54,8 @@ public class Peca implements Serializable {
     public void setId(UUID id) {
         this.id = id;
     }
-
-    public String getDescicao() {
+    
+    public String getDescricao() {
         return descricao;
     }
 
