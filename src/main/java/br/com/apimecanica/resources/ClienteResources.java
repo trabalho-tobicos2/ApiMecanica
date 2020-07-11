@@ -1,6 +1,6 @@
 package br.com.apimecanica.resources;
 
-import br.com.apimecanica.models.Mecanico;
+import br.com.apimecanica.models.Cliente;
 import java.util.List;
 import java.util.UUID;
 import javax.ejb.Stateless;
@@ -22,49 +22,49 @@ import javax.ws.rs.core.Response;
  * @author user
  */
 @Stateless
-@Path("mecanicos")
+@Path("clientes")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class MecanicoResources {
-    
+
+public class ClienteResources {
+
     @PersistenceContext(unitName = "MecanicaPU")
     EntityManager entityManager;
-    
+
     @GET
-    public List<Mecanico> getMecanicos() {
+    public List<Cliente> getClientes() {
         return entityManager
-                .createQuery("SELECT m FROM Mecanico m", Mecanico.class)
+                .createQuery("SELECT c FROM Cliente c", Cliente.class)
                 .getResultList();
     }
-    
+
     @POST
-    public Response addMecanico(Mecanico mecanico) {
-        entityManager.persist(mecanico);
+    public Response addCliente(Cliente cliente) {
+        entityManager.persist(cliente);
         return Response
                 .status(Response.Status.CREATED)
-                .entity(mecanico)
+                .entity(cliente)
                 .build();
     }
-    
+
     @GET
     @Path("{id}")
-    public Mecanico getMecanico(@PathParam("id") UUID id) {
-        return entityManager.find(Mecanico.class, id);
+    public Cliente getCliente(@PathParam("id") UUID id) {
+        return entityManager.find(Cliente.class, id);
     }
-        
+
     @DELETE
     @Path("{id}")
-    public void removeMecanico(@PathParam("id") UUID id) {
-        Mecanico mecanico = entityManager.find(Mecanico.class, id);
-        entityManager.remove(mecanico);
+    public void removeCliente(@PathParam("id") UUID id) {
+        Cliente cliente = entityManager.find(Cliente.class, id);
+        entityManager.remove(cliente);
     }
-    
+
     @PUT
     @Path("{id}")
-    public Mecanico updateMecanico(@PathParam("id") UUID id, Mecanico m) {
-        m.setId(id);
-        entityManager.merge(m);
-        return m;
+    public Cliente updateCliente(@PathParam("id") UUID id, Cliente c) {
+        c.setId(id);
+        entityManager.merge(c);
+        return c;
     }
-       
-} 
+}

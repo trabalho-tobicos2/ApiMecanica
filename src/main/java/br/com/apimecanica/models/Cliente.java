@@ -13,29 +13,32 @@ import javax.persistence.Table;
  * @author user
  */
 @Entity
-@Table(name = "mecanico", schema = "public")
-public class Mecanico implements Serializable {
+@Table(name = "cliente", schema = "public")
+public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String nome;
-    
+
     @Column(nullable = false, unique = true)
     private String cpf;
-    
+
     @Column(nullable = false)
     private String endereco;
-    
+
     @Column(nullable = false)
     private String telefone;
-    
+
     @Column(nullable = false)
     private String celular;
-    
-    public Mecanico() {
+
+    @Column(nullable = false)
+    private String imagem;
+
+    public Cliente() {
     }
 
     public UUID getId() {
@@ -85,6 +88,18 @@ public class Mecanico implements Serializable {
     public void setCelular(String celular) {
         this.celular = celular;
     }
-    
-    
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
+
 }

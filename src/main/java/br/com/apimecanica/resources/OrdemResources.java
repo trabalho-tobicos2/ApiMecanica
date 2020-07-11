@@ -1,6 +1,6 @@
 package br.com.apimecanica.resources;
 
-import br.com.apimecanica.models.Mecanico;
+import br.com.apimecanica.models.Ordem;
 import java.util.List;
 import java.util.UUID;
 import javax.ejb.Stateless;
@@ -22,49 +22,53 @@ import javax.ws.rs.core.Response;
  * @author user
  */
 @Stateless
-@Path("mecanicos")
+@Path("ordens")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class MecanicoResources {
-    
+
+public class OrdemResources {
+
     @PersistenceContext(unitName = "MecanicaPU")
     EntityManager entityManager;
-    
+
     @GET
-    public List<Mecanico> getMecanicos() {
+    public List<Ordem> getOrdens() {
         return entityManager
-                .createQuery("SELECT m FROM Mecanico m", Mecanico.class)
+                .createQuery("SELECT DISTINCT o FROM Ordem o inner join fetch o.servicos s", Ordem.class)
                 .getResultList();
     }
-    
+
     @POST
-    public Response addMecanico(Mecanico mecanico) {
-        entityManager.persist(mecanico);
+    public Response addOrdem(Ordem ordem) {
+        entityManager.persist(ordem);
         return Response
                 .status(Response.Status.CREATED)
-                .entity(mecanico)
+                .entity(ordem)
                 .build();
     }
-    
+
     @GET
     @Path("{id}")
-    public Mecanico getMecanico(@PathParam("id") UUID id) {
-        return entityManager.find(Mecanico.class, id);
+    public Ordem getOrdem(@PathParam("id") UUID id) {
+        Ordem ordem  = entityManager.find(Ordem.class, id);
+        ordem.getServicos().size();
+        return ordem;
+      //  return entityManager.find(Ordem.class, id);
     }
-        
+
     @DELETE
     @Path("{id}")
-    public void removeMecanico(@PathParam("id") UUID id) {
-        Mecanico mecanico = entityManager.find(Mecanico.class, id);
-        entityManager.remove(mecanico);
+    public void removeOrdem(@PathParam("id") UUID id) {
+        Ordem ordem = entityManager.find(Ordem.class, id);
+        entityManager.remove(ordem);
     }
-    
+
     @PUT
     @Path("{id}")
-    public Mecanico updateMecanico(@PathParam("id") UUID id, Mecanico m) {
-        m.setId(id);
-        entityManager.merge(m);
-        return m;
+    public Ordem updateOrdem(@PathParam("id") UUID id, Ordem o) {
+        o.setId(id);
+        entityManager.merge(o);
+        return o;
     }
-       
-} 
+
+}

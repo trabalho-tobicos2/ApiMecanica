@@ -10,21 +10,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
+ *
  * @author user
  */
 @Entity
-@Table(name = "peca", schema = "public")
+@Table(name = "servico", schema = "public")
 
-@NamedQueries({
-    @NamedQuery(name = "Peca.findAll", query = "SELECT p FROM Peca p"),
-    @NamedQuery(name = "Peca.findByDescricao", query = "SELECT preco FROM Peca p where p.descricao LIKE :descricao")
-})
-public class Peca implements Serializable {
+public class Servico implements Serializable {
 
     @Id
     @GeneratedValue
@@ -35,27 +30,21 @@ public class Peca implements Serializable {
 
     @Column(nullable = false)
     private String tipo;
-    
+
     @Column(nullable = false)
-    private String marca;
-    
-    @Column(nullable = false)
-    private String cor;
-    
+    private String cobranca;
+
     @Column(nullable = false)
     private Float preco;
-    
-    @Column(name = "imagem_url", nullable = false)
-    private String imagemUrl;
-    
-    @ManyToMany(mappedBy = "pecas")
+
+    @ManyToMany(mappedBy = "servicos")
     @JsonIgnore
     private List<Ordem> ordens = new ArrayList<>();
-
-    public Peca() {
+    
+     public Servico() {
     }
-
-    public UUID getId() {
+     
+     public UUID getId() {
         return id;
     }
 
@@ -79,20 +68,12 @@ public class Peca implements Serializable {
         this.tipo = tipo;
     }
 
-    public String getMarca() {
-        return marca;
+    public String getCobranca() {
+        return cobranca;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
+    public void setCobranca(String cobranca) {
+        this.cobranca = cobranca;
     }
 
     public Float getPreco() {
@@ -103,17 +84,8 @@ public class Peca implements Serializable {
         this.preco = preco;
     }
 
-    public String getImagemUrl() {
-        return imagemUrl;
-    }
-
-    public void setImagemUrl(String imagemUrl) {
-        this.imagemUrl = imagemUrl;
-    }
-
     @Override
     public String toString() {
         return this.descricao;
     }
-    
 }
